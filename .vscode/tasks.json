@@ -1,0 +1,66 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "shell",
+			"label": "Create build folder",
+			"command": "mkdir",
+			"args": ["-p", "build"]
+		},
+		{
+			"type": "shell",
+			"label": "C/C++: gcc build active file",
+			"command": "/usr/bin/gcc",
+			"args": [
+				"-Wall",
+				"-g",
+				"${file}",
+				"-o",
+				"${workspaceRoot}/build/${fileBasenameNoExtension}"
+			],
+			"options": {
+				"cwd": "${workspaceFolder}"
+			},
+			"problemMatcher": [
+				"$gcc"
+			],
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			},
+			"dependsOn": ["Create build folder"]
+		},
+		{
+			"type": "shell",
+            "label": "Build and run",
+            "command": "",
+			"args": [
+                "gcc",
+				"-Wall",
+				"-g",
+				"${file}",
+				"-o",
+                "${workspaceRoot}/build/${fileBasenameNoExtension}",
+                "&&",
+                "${workspaceRoot}/build/${fileBasenameNoExtension}"
+            ],
+            "group": "test",
+			"problemMatcher": {
+                "owner": "gcc",
+                "fileLocation": [
+                    "relative",
+                    "${workspaceRoot}"
+                ],
+                "pattern": {
+                    "regexp": "^(.*):(\\d+):(\\d+):\\s+(warning|error):\\s+(.*)$",
+                    "file": 1,
+                    "line": 2,
+                    "column": 3,
+                    "severity": 4,
+                    "message": 5
+                }
+            },
+            "dependsOn": ["Create build folder"]
+		}
+	]
+}
